@@ -1,0 +1,10 @@
+/blocklist.tmp
+/curl-log-file
+/create-adguard-blocklist.sh
+/run-garbage-collection
+/oisd.txt
+package*.json
+/sed*
+/node_modules
+.DS_Store
+*.log

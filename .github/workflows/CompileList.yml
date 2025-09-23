@@ -1,0 +1,29 @@
+# This is a basic workflow that is manually triggered
+
+name: Compile List workflow
+
+on:
+  schedule:
+    - cron: '30 18 * * *' # Runs every day at 6:30 PM UTC
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and Run in Dev Container
+        uses: devcontainers/ci@v0.3
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_USER: ${{ github.actor }}
+          GITHUB_EMAIL: ${{ github.actor }}@users.noreply.github.com
+        with:
+          env: |
+            GITHUB_TOKEN
+            GITHUB_USER
+            GITHUB_EMAIL
+          runCmd: |
+            git config user.name "${{ env.GITHUB_USER }}"
+            git config user.email "${{ env.GITHUB_EMAIL }}"
+            git config --global url."https://x-access-token:${{ env.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
+            ./compile-hostlist
