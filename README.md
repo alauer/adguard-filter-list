@@ -30,7 +30,7 @@ AdGuardHome, but just this one.
 ## How Can I Use It?<a name="how-can-i-use-it"></a>
 
 Pretty simple, copy this link
-(https://github.com/ppfeufer/adguard-filter-list/blob/master/blocklist?raw=true) and
+(https://github.com/alauer/adguard-filter-list/blob/master/blocklist?raw=true) and
 add it to your AdGuardHome DNS blocklists.
 
 ## Which Lists Are Combined Here?<a name="which-lists-are-combined-here"></a>
