@@ -12,7 +12,7 @@ git pull
 # curl https://big.oisd.nl/ -o oisd.txt
 
 # Create compiled blocklist
-time hostlist-compiler -v -c hostlist-compiler-config.json -o blocklist
+time hostlist-compiler -c hostlist-compiler-config.json -o blocklist
 
 # Remove all whitelisted entries, this is a blocklist after all
 #sed -i '/^@@/d' blocklist
