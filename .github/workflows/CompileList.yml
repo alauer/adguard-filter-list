@@ -3,6 +3,7 @@
 name: Compile List workflow
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '30 18 * * *' # Runs every day at 6:30 PM UTC
 
