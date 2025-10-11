@@ -1,186 +1,16 @@
 provider "aws" {
   region = "us-east-2"
+  default_tags {
+    tags = {
+      Project = "adguard-filter-list"
+      ManagedBy = "Terraform"
+      Owner = "aaron"
+    }
+  }
 }
 
 data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
-
-# 1️⃣ IAM Roles
-resource "aws_iam_role" "terraform_admin" {
-  name = "TerraformAdmin"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Effect = "Allow"
-      Principal = {
-        AWS = var.trusted_admin_principal
-      }
-      Action = "sts:AssumeRole"
-    }]
-  })
-}
-
-resource "aws_iam_role_policy" "terraform_admin_kms_admin" {
-  name = "KMSKeyAdminPolicy"
-  role = aws_iam_role.terraform_admin.id
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Sid    = "AllowKMSAdmin"
-      Effect = "Allow"
-      Action = [
-        "kms:Create*","kms:Describe*","kms:Enable*","kms:List*","kms:Put*","kms:Update*",
-        "kms:Revoke*","kms:Disable*","kms:Get*","kms:Delete*","kms:TagResource","kms:UntagResource",
-        "kms:ScheduleKeyDeletion","kms:CancelKeyDeletion"
-      ]
-      Resource = "*"
-    }]
-  })
-}
-
-resource "aws_iam_role" "app_server_role" {
-  name = "AppServerRole"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Effect = "Allow"
-      Principal = {
-        Service = var.app_server_service
-      }
-      Action = "sts:AssumeRole"
-    }]
-  })
-}
-
-resource "aws_iam_role_policy" "app_server_kms_use" {
-  name = "KMSKeyUsePolicy"
-  role = aws_iam_role.app_server_role.id
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Sid    = "AllowKMSUse"
-      Effect = "Allow"
-      Action = [
-        "kms:Encrypt","kms:Decrypt","kms:ReEncrypt*","kms:GenerateDataKey*","kms:DescribeKey"
-      ]
-      Resource = "*"
-    }]
-  })
-}
-
-# 2️⃣ KMS Key + Alias
-resource "aws_kms_key" "s3_key" {
-  description             = "KMS key for encrypting S3 bucket objects"
-  deletion_window_in_days = 10
-  enable_key_rotation     = true
-}
-
-resource "aws_kms_alias" "s3_key_alias" {
-  name          = "alias/${var.bucket_name}-sse-kms"
-  target_key_id = aws_kms_key.s3_key.key_id
-}
-
-# 3️⃣ KMS Key Policy (includes CloudFront OAC)
-data "aws_iam_policy_document" "kms_key_policy" {
-  version = "2012-10-17"
-
-  dynamic "statement" {
-    for_each = var.allow_account_root_admin ? [1] : []
-    content {
-      sid     = "AllowAccountRootAdmin"
-      effect  = "Allow"
-      actions = ["kms:*"]
-      resources = ["*"]
-      principals {
-        type        = "AWS"
-        identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
-      }
-    }
-  }
-
-  statement {
-    sid     = "AllowKeyAdministration"
-    effect  = "Allow"
-    actions = [
-      "kms:Create*","kms:Describe*","kms:Enable*","kms:List*","kms:Put*","kms:Update*",
-      "kms:Revoke*","kms:Disable*","kms:Get*","kms:Delete*","kms:TagResource","kms:UntagResource",
-      "kms:ScheduleKeyDeletion","kms:CancelKeyDeletion"
-    ]
-    resources = ["*"]
-    principals {
-      type        = "AWS"
-      identifiers = [aws_iam_role.terraform_admin.arn]
-    }
-  }
-
-  statement {
-    sid     = "AllowS3UseForSpecificBucket"
-    effect  = "Allow"
-    actions = [
-      "kms:Encrypt","kms:Decrypt","kms:ReEncrypt*","kms:GenerateDataKey*","kms:DescribeKey"
-    ]
-    resources = ["*"]
-    principals {
-      type        = "Service"
-      identifiers = ["s3.amazonaws.com"]
-    }
-    condition {
-      test     = "StringEquals"
-      variable = "aws:ViaService"
-      values   = ["s3.${data.aws_region.current.name}.amazonaws.com"]
-    }
-    condition {
-      test     = "StringLike"
-      variable = "kms:EncryptionContext:aws:s3:arn"
-      values   = ["arn:aws:s3:::${var.bucket_name}/*"]
-    }
-  }
-
-  statement {
-    sid     = "AllowDirectUseForAppServerRole"
-    effect  = "Allow"
-    actions = [
-      "kms:Encrypt","kms:Decrypt","kms:ReEncrypt*","kms:GenerateDataKey*","kms:DescribeKey"
-    ]
-    resources = ["*"]
-    principals {
-      type        = "AWS"
-      identifiers = [aws_iam_role.app_server_role.arn]
-    }
-  }
-
-  statement {
-    sid     = "AllowCloudFrontOACUseForSpecificBucket"
-    effect  = "Allow"
-    actions = [
-      "kms:Encrypt","kms:Decrypt","kms:ReEncrypt*","kms:GenerateDataKey*","kms:DescribeKey"
-    ]
-    resources = ["*"]
-    principals {
-      type        = "Service"
-      identifiers = ["cloudfront.amazonaws.com"]
-    }
-    condition {
-      test     = "StringEquals"
-      variable = "aws:ViaService"
-      values   = ["s3.${data.aws_region.current.name}.amazonaws.com"]
-    }
-    condition {
-      test     = "StringLike"
-      variable = "kms:EncryptionContext:aws:s3:arn"
-      values   = ["arn:aws:s3:::${var.bucket_name}/*"]
-    }
-  }
-}
-
-resource "aws_kms_key_policy" "s3_key_policy" {
-  key_id = aws_kms_key.s3_key.id
-  policy = data.aws_iam_policy_document.kms_key_policy.json
-}
 
 # 4️⃣ Private S3 bucket
 resource "aws_s3_bucket" "private_bucket" {
@@ -212,9 +42,9 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "encryption" {
 
   rule {
     apply_server_side_encryption_by_default {
-      kms_master_key_id = aws_kms_key.s3_key.arn
-      sse_algorithm     = "aws:kms"
+      sse_algorithm     = "AES256"
     }
+    bucket_key_enabled = true
   }
 }
 
