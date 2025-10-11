@@ -12,6 +12,35 @@ provider "aws" {
 data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
+data "aws_iam_policy_document" "origin_bucket_policy" {
+  statement {
+    sid    = "AllowCloudFrontServicePrincipalReadWrite"
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["cloudfront.amazonaws.com"]
+    }
+
+    actions = [
+      "s3:GetObject",
+      "s3:PutObject",
+    ]
+
+    resources = [
+      "${aws_s3_bucket.private_bucket.arn}/*",
+    ]
+
+    condition {
+      test     = "StringEquals"
+      variable = "AWS:SourceArn"
+      values   = [aws_cloudfront_distribution.cdn.arn]
+    }
+  }
+}
+
+
+
 # 4️⃣ Private S3 bucket
 resource "aws_s3_bucket" "private_bucket" {
   bucket = var.bucket_name
@@ -25,6 +54,11 @@ resource "aws_s3_bucket_ownership_controls" "ownership" {
 }
 
 resource "aws_s3_bucket_acl" "private_acl" {
+  depends_on = [
+    aws_s3_bucket_ownership_controls.ownership,
+    aws_s3_bucket_public_access_block.block_public
+  ]
+  
   bucket = aws_s3_bucket.private_bucket.id
   acl    = "private"
 }
@@ -46,6 +80,11 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "encryption" {
     }
     bucket_key_enabled = true
   }
+}
+
+resource "aws_s3_bucket_policy" "bucket_policy" {
+  bucket = aws_s3_bucket.private_bucket.bucket
+  policy = data.aws_iam_policy_document.origin_bucket_policy.json
 }
 
 # 5️⃣ CloudFront Origin Access Control (OAC)
