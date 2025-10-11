@@ -51,4 +51,4 @@ jobs:
           aws-region: us-east-2
       - name: Sync files to S3
         run: |
-          aws s3 cp ./blocklist s3://${{ var.AWS_BUCKET_NAME }}
+          aws s3 cp ./blocklist s3://${{ vars.AWS_BUCKET_NAME }}
