@@ -40,12 +40,11 @@ jobs:
     needs: build
     steps:
       - name: Use output from previous job
-        if: ${{ needs.build.result == 'success' }}
       - uses: actions/download-artifact@v5
         with:
           name: blocklist
       - name: Setup AWS Access
-        uses: aws-actions/configure-aws-credentials@v3'
+      - uses: aws-actions/configure-aws-credentials@v3'
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
