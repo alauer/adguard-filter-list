@@ -1,0 +1,37 @@
+name: Compile test (devcontainer)
+
+on:
+  pull_request:
+    paths:
+      - 'hostlist-compiler-config.json'
+      - 'compile-hostlist'
+      - '.devcontainer/**'
+      - 'Dockerfile'
+
+jobs:
+  compile-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Build and Run in Dev Container
+        uses: devcontainers/ci@v0.3
+        with:
+          runCmd: |
+            set -euxo pipefail
+            # ensure npm-installed hostlist-compiler is available in devcontainer by devcontainer features
+            ./compile-hostlist
+            # sanity checks: blocklist must exist and not be empty
+            if [ ! -s blocklist ]; then
+              echo 'ERROR: blocklist is missing or empty' >&2
+              ls -la
+              exit 2
+            fi
+            echo 'blocklist generated successfully:'
+            wc -l blocklist || true
+
+      - name: Upload blocklist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: blocklist-test
+          path: blocklist
