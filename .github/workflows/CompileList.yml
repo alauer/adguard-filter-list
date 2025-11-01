@@ -30,7 +30,7 @@ jobs:
             git config user.email "${{ env.GITHUB_EMAIL }}"
             git config --global url."https://x-access-token:${{ env.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
             ./compile-hostlist
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         id: artifact-upload-step
         with:
           name: blocklist
