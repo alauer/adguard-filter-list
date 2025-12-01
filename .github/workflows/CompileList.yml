@@ -13,7 +13,7 @@ jobs:
     outputs:
       output1: ${{ steps.artifact-upload-step.outputs.artifact-id }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Build and Run in Dev Container
         uses: devcontainers/ci@v0.3
         env: 
