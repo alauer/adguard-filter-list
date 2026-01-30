@@ -1,4 +1,4 @@
-FROM debian:trixie-slim
+FROM ubuntu:noble
 
     # Install necessary packages
     RUN apt-get update && apt-get install -y \
@@ -12,7 +12,6 @@ FROM debian:trixie-slim
     RUN npm i -g @adguard/hostlist-compiler@v1.0.39
     COPY --chmod=+x ./scripts/build-list.sh /usr/local/bin/build-list.sh
     COPY --chmod=+rwx hostlist-compiler-config.json /hostlist-compiler-config.json
-    #ENTRYPOINT ["/usr/local/bin/compile-hostlist", "-c hostlist-compiler-config.json", "-o blocklist"]
     ENTRYPOINT ["/usr/local/bin/build-list.sh"]
 
     # Set a working directory
