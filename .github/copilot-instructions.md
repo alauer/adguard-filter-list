@@ -58,3 +58,37 @@ This repo builds a single AdGuardHome-compatible DNS blocklist by combining many
 - If you need to filter out specific rule shapes post-compile, add a commented `sed` line in `compile-hostlist` with justification and tests (manual sample outputs).
 
 If any of this is unclear or you want me to add examples for editing `hostlist-compiler-config.json` or a template PR checklist for changing sources, tell me which section to expand.
+
+---
+
+### New: Docker image build & publish workflow
+
+This repository includes a GitHub Actions workflow that builds platform-specific Docker images and publishes a combined multi-arch manifest. The workflow file is `.github/workflows/build-and-push-image.yml` and its behavior (as implemented) is summarized below.
+
+- What it does: builds and pushes per-architecture images (e.g. `linux/amd64`, `linux/arm64`) and then creates multi-arch manifests tagged `:latest` and `:<commit-sha>` that point to the per-arch images.
+
+- Jobs:
+  - `build` (matrix): builds and pushes a platform-specific image for each matrix row. Matrix rows include `platform` (Docker platform string), `arch` (tag-safe arch string used in image tag suffixes) and `runner` (the GitHub runner label). Example rows: `platform: linux/amd64, arch: linux-amd64, runner: ubuntu-latest` and `platform: linux/arm64, arch: linux-arm64, runner: ubuntu-latest`.
+    - Uses `docker/setup-qemu-action@v3` and `docker/setup-buildx-action@v3` so cross-builds succeed on `ubuntu-latest` via emulation.
+    - Logs into GHCR using `docker/login-action@v3` and pushes per-arch images with tags:
+      - `ghcr.io/<owner>/<repo>:latest-<arch>`
+      - `ghcr.io/<owner>/<repo>:<sha>-<arch>`
+    - Note: The workflow avoids unsupported expression functions (for example `replace()` is not available in GitHub Actions expressions) by providing a precomputed `arch` value in the matrix.
+
+  - `create-manifest`: waits for `build` to finish and runs `docker buildx imagetools create` to assemble and push a multi-arch manifest for the two tags:
+    - `ghcr.io/<owner>/<repo>:latest` (points to `:latest-linux-amd64` and `:latest-linux-arm64`)
+    - `ghcr.io/<owner>/<repo>:<sha>` (points to `:<sha>-linux-amd64` and `:<sha>-linux-arm64`)
+
+- Authentication & permissions:
+  - The workflow uses `${{ secrets.GITHUB_TOKEN }}` for GHCR authentication and requires `packages: write` permission in the workflow permissions block (already present in the workflow).
+
+- What to watch for / tips:
+  - If you prefer native ARM builds without emulation, provide a self-hosted ARM runner and set the matrix `runner` accordingly.
+  - If you want a single job to produce both per-arch images and the manifest without separate tags, adapt the `build-push` action to push manifest lists directly; current flow pushes per-arch images then creates manifests.
+  - If you need different tag naming, update the `matrix.arch` values or the `create-manifest` job's image references.
+  - The workflow uses `docker/build-push-action@v6` and `buildx imagetools create` — ensure the devcontainer or environment you test in has Docker and Buildx available if running locally.
+
+- Testing locally and via PR:
+  - To run the workflow in CI, open a PR with the changes and GitHub will run it (or trigger via `workflow_dispatch`).
+  - Typical commands used during development of the workflow:
+
