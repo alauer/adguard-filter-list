@@ -3,10 +3,10 @@
 {
 	"name": "Adguard List Builder Dev Container",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/python:3-trixie",
+	"image": "mcr.microsoft.com/devcontainers/base:ubuntu",
 	"features": {
 		"ghcr.io/devcontainers-extra/features/apt-get-packages:1": {
-      		"packages": ["npm"]
+      		"packages": ["npm","python3-pip","git"]
     	},
 		"ghcr.io/wxw-matt/devcontainer-features/command_runner:0": {
 			"command1": ["npm i -g @adguard/hostlist-compiler@v1.0.39"]
@@ -23,7 +23,7 @@
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "pip3 install -r requirements.txt"
+	"postCreateCommand": "pip3 install -r requirements.txt --break-system-packages",
 
 	// Configure tool-specific properties.
 	// "customizations": {},
