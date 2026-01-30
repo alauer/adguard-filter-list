@@ -4,7 +4,6 @@ FROM ubuntu:noble
     RUN apt-get update && apt-get install -y \
         git \
         curl \
-        build-essential \
         npm \
         # Add other tools/dependencies as needed
         && rm -rf /var/lib/apt/lists/*
