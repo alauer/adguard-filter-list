@@ -16,9 +16,11 @@ jobs:
       matrix:
         include:
           - platform: linux/amd64
+            arch: linux-amd64
             runner: ubuntu-latest
           - platform: linux/arm64
-            runner: ubuntu-latest
+            arch: linux-arm64
+            runner: ubuntu-24.04-arm
     runs-on: ${{ matrix.runner }}
     steps:
       - name: Checkout repository
@@ -45,8 +47,8 @@ jobs:
           push: true
           platforms: ${{ matrix.platform }}
           tags: |
-            ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest-${{ replace(matrix.platform, '/', '-') }}
-            ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ github.sha }}-${{ replace(matrix.platform, '/', '-') }}
+            ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest-${{ matrix.arch }}
+            ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ github.sha }}-${{ matrix.arch }}
 
   create-manifest:
     needs: build
