@@ -33,8 +33,8 @@ jobs:
       - uses: actions/upload-artifact@v7
         id: artifact-upload-step
         with:
-          name: blocklist
-          path: blocklist
+          name: blocklist.txt
+          path: blocklist.txt
   upload:
     runs-on: ubuntu-latest
     needs: build
