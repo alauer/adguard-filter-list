@@ -42,7 +42,7 @@ jobs:
       - name: Use output from previous job
         uses: actions/download-artifact@v8
         with:
-          name: blocklist
+          name: blocklist.txt
       - name: Setup AWS Access
         uses: aws-actions/configure-aws-credentials@v6
         with:
