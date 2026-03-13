@@ -12,13 +12,13 @@
 # curl https://big.oisd.nl/ -o oisd.txt
 
 # Create compiled blocklist
-time hostlist-compiler -c /hostlist-compiler-config.json -o blocklist
+time hostlist-compiler -c /hostlist-compiler-config.json -o blocklist.txt
 
 # Remove all whitelisted entries, this is a blocklist after all
 #sed -i '/^@@/d' blocklist
 
 # Remove empty lines
-sed -i '/^$/d' blocklist
+sed -i '/^$/d' blocklist.txt
 
 
 # Remove rules that are too long as these are most likely non DNS related rules, see https://github.com/AdguardTeam/AdGuardHome/issues/6003
