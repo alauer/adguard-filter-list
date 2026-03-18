@@ -75,7 +75,7 @@ As stated [here](https://github.com/lightswitch05/hosts#google-fonts) from one o
 the lists I am using, you might have to whitelist `fonts.gstatic.com`. To do so, add
 the following to your whitelist:
 
-```plainext
+```plaintext
 @@||fonts.gstatic.com^$important
 ```
 
@@ -86,6 +86,12 @@ following line to your custom filter rules:
 
 ```plaintext
 @@||extccp.com^$important
+```
+
+### Running the Docker Container<a name="docker"></a>
+To run the docker container:
+```plaintext
+docker run -v ./output:/workspaces ghcr.io/alauer/adguard-filter-list:latest
 ```
 
 ## Last Words<a name="last-words"></a>
