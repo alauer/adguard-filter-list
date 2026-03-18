@@ -13,23 +13,24 @@ jobs:
     outputs:
       output1: ${{ steps.artifact-upload-step.outputs.artifact-id }}
     steps:
-      - uses: actions/checkout@v6
-      - name: Build and Run in Dev Container
-        uses: devcontainers/ci@v0.3
-        env: 
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_USER: ${{ github.actor }}
-          GITHUB_EMAIL: ${{ github.actor }}@users.noreply.github.com
-        with:
-          env: |
-            GITHUB_TOKEN
-            GITHUB_USER
-            GITHUB_EMAIL
-          runCmd: |
-            git config user.name "${{ env.GITHUB_USER }}"
-            git config user.email "${{ env.GITHUB_EMAIL }}"
-            git config --global url."https://x-access-token:${{ env.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
-            ./compile-hostlist
+      - run: docker run -v ./:/workspaces ghcr.io/alauer/adguard-filter-list:latest
+      # - uses: actions/checkout@v6
+      # - name: Build and Run in Dev Container
+      #   uses: devcontainers/ci@v0.3
+      #   env: 
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     GITHUB_USER: ${{ github.actor }}
+      #     GITHUB_EMAIL: ${{ github.actor }}@users.noreply.github.com
+      #   with:
+      #     env: |
+      #       GITHUB_TOKEN
+      #       GITHUB_USER
+      #       GITHUB_EMAIL
+      #     runCmd: |
+      #       git config user.name "${{ env.GITHUB_USER }}"
+      #       git config user.email "${{ env.GITHUB_EMAIL }}"
+      #       git config --global url."https://x-access-token:${{ env.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
+      #       ./compile-hostlist
       - uses: actions/upload-artifact@v7
         id: artifact-upload-step
         with:
