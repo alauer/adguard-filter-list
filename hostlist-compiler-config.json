@@ -5,8 +5,138 @@
   "license": "GPLv3",
   "sources": [
     {
-      "name": "HaGeZi's Light Blocklist",
-      "source": "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/light.txt",
+      "name": "Dandelion Sprout's Anti-Malware List",
+      "source": "https://adguardteam.github.io/HostlistsRegistry/assets/filter_12.txt",
+      "type": "adblock",
+      "transformations": [
+        "RemoveComments",
+        "Compress",
+        "Validate"
+      ]
+    },
+    {
+      "name": "HaGeZi's Pro Blocklist",
+      "source": "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/pro.txt",
+      "type": "adblock",
+      "transformations": [
+        "RemoveComments",
+        "Compress",
+        "Validate"
+      ]
+    },
+    {
+      "name": "HaGeZi's Threat Intelligence Feeds DNS Blocklist",
+      "source": "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/tif.txt",
+      "type": "adblock",
+      "transformations": [
+        "RemoveComments",
+        "Compress",
+        "Validate"
+      ]
+    },
+    {
+      "name": "uBlock filters – Privacy",
+      "source": "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/privacy.txt",
+      "type": "adblock",
+      "transformations": [
+        "RemoveComments",
+        "Compress",
+        "Validate"
+      ]
+    },
+    {
+      "name": "uBlock filters – Resource abuse",
+      "source": "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/resource-abuse.txt",
+      "type": "adblock",
+      "transformations": [
+        "RemoveComments",
+        "Compress",
+        "Validate"
+      ]
+    },
+    {
+      "name": "uBlock filters – Unbreak",
+      "source": "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/unbreak.txt",
+      "type": "adblock",
+      "transformations": [
+        "RemoveComments",
+        "Compress",
+        "Validate"
+      ]
+    },
+    {
+      "name": "NextDNS Privacy - Alexa",
+      "source": "https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/alexa",
+      "type": "adblock",
+      "transformations": [
+        "RemoveComments",
+        "Compress",
+        "Validate"
+      ]
+    },
+    {
+      "name": "NextDNS Privacy - Apple",
+      "source": "https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/apple",
+      "type": "adblock",
+      "transformations": [
+        "RemoveComments",
+        "Compress",
+        "Validate"
+      ]
+    },
+    {
+      "name": "NextDNS Privacy - Huawei",
+      "source": "https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/huawei",
+      "type": "adblock",
+      "transformations": [
+        "RemoveComments",
+        "Compress",
+        "Validate"
+      ]
+    },
+    {
+      "name": "NextDNS Privacy - Roku",
+      "source": "https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/roku",
+      "type": "adblock",
+      "transformations": [
+        "RemoveComments",
+        "Compress",
+        "Validate"
+      ]
+    },
+    {
+      "name": "NextDNS Privacy - Samsung",
+      "source": "https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/samsung",
+      "type": "adblock",
+      "transformations": [
+        "RemoveComments",
+        "Compress",
+        "Validate"
+      ]
+    },
+    {
+      "name": "NextDNS Privacy - Sonos",
+      "source": "https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/sonos",
+      "type": "adblock",
+      "transformations": [
+        "RemoveComments",
+        "Compress",
+        "Validate"
+      ]
+    },
+    {
+      "name": "NextDNS Privacy - Windows",
+      "source": "https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/windows",
+      "type": "adblock",
+      "transformations": [
+        "RemoveComments",
+        "Compress",
+        "Validate"
+      ]
+    },
+    {
+      "name": "NextDNS Privacy - Xiaomi",
+      "source": "https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/xiaomi",
       "type": "adblock",
       "transformations": [
         "RemoveComments",
