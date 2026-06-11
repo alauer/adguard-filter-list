@@ -15,8 +15,8 @@
       ]
     },
     {
-      "name": "HaGeZi's Pro Blocklist",
-      "source": "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/pro.txt",
+      "name": "HaGeZi's Pro Mini Blocklist",
+      "source": "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/pro.mini.txt",
       "type": "adblock",
       "transformations": [
         "RemoveComments",
@@ -26,7 +26,7 @@
     },
     {
       "name": "HaGeZi's Threat Intelligence Feeds DNS Blocklist",
-      "source": "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/tif.txt",
+      "source": "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/tif.medium.txt",
       "type": "adblock",
       "transformations": [
         "RemoveComments",
