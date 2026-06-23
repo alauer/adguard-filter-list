@@ -5,16 +5,6 @@
   "license": "GPLv3",
   "sources": [
     {
-      "name": "Dandelion Sprout's Anti-Malware List",
-      "source": "https://adguardteam.github.io/HostlistsRegistry/assets/filter_12.txt",
-      "type": "adblock",
-      "transformations": [
-        "RemoveComments",
-        "Compress",
-        "Validate"
-      ]
-    },
-    {
       "name": "HaGeZi's Pro Blocklist",
       "source": "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/pro.txt",
       "type": "adblock",
