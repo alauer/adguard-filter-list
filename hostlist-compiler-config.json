@@ -15,8 +15,8 @@
       ]
     },
     {
-      "name": "HaGeZi's Pro Mini Blocklist",
-      "source": "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/pro.mini.txt",
+      "name": "HaGeZi's Pro Blocklist",
+      "source": "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/pro.txt",
       "type": "adblock",
       "transformations": [
         "RemoveComments",
