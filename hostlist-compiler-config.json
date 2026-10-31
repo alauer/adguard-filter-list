@@ -33,46 +33,6 @@
       "name": "uBlock filters – Unbreak",
       "source": "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/unbreak.txt",
       "type": "adblock"
-    },
-    {
-      "name": "NextDNS Privacy - Alexa",
-      "source": "https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/alexa",
-      "type": "adblock"
-    },
-    {
-      "name": "NextDNS Privacy - Apple",
-      "source": "https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/apple",
-      "type": "adblock"
-    },
-    {
-      "name": "NextDNS Privacy - Huawei",
-      "source": "https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/huawei",
-      "type": "adblock"
-    },
-    {
-      "name": "NextDNS Privacy - Roku",
-      "source": "https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/roku",
-      "type": "adblock"
-    },
-    {
-      "name": "NextDNS Privacy - Samsung",
-      "source": "https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/samsung",
-      "type": "adblock"
-    },
-    {
-      "name": "NextDNS Privacy - Sonos",
-      "source": "https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/sonos",
-      "type": "adblock"
-    },
-    {
-      "name": "NextDNS Privacy - Windows",
-      "source": "https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/windows",
-      "type": "adblock"
-    },
-    {
-      "name": "NextDNS Privacy - Xiaomi",
-      "source": "https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/xiaomi",
-      "type": "adblock"
     }
   ],
   "transformations": [

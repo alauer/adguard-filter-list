@@ -46,14 +46,6 @@ Which lists I'm using here, you can see in hostlist compiler configuration
 | uBlock filters – Privacy         | https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/privacy.txt        |
 | uBlock filters – Resource abuse  | https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/resource-abuse.txt |
 | uBlock filters – Unbreak         | https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/unbreak.txt        |
-| NextDNS Privacy - Alexa          | https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/alexa     |
-| NextDNS Privacy - Apple          | https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/apple     |
-| NextDNS Privacy - Huawei         | https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/huawei    |
-| NextDNS Privacy - Roku           | https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/roku      |
-| NextDNS Privacy - Samsung        | https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/samsung   |
-| NextDNS Privacy - Sonos          | https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/sonos     |
-| NextDNS Privacy - Windows        | https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/windows   |
-| NextDNS Privacy - Xiaomi         | https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/xiaomi    |
 
 ## Do You Curate the Lists?<a name="do-you-curate-the-lists"></a>
 
